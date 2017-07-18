@@ -1,0 +1,62 @@
+
+<section layout="row" layout-fill>
+	<md-sidenav md-component-id="left" md-whiteframe="4">
+		<md-toolbar>
+			<h1 class="md-toolbar-tools">Opções</h1>
+		</md-toolbar>
+		<md-content layout-margin>
+			<md-button ng-click="vm.goCadastre()" class="md-accent">
+				Sair
+			</md-button>
+		</md-content>
+    </md-sidenav>
+	<md-content layout-fill id="bkg" >
+		<md-toolbar md-scroll-shrink>
+			<div class="md-toolbar-tools">
+				<md-button class="md-icon-button md-accent" aria-label="Settings" ng-click="vm.toggle()" target="_blank">
+					<md-icon> menu </md-icon>
+				</md-button>
+				
+				<h2>Pesquisa </h2>
+				
+				<span flex=""></span>
+				
+				<md-input-container class="md-accent md-block">
+					<label>Filtrar</label>
+					<md-icon> search </md-icon>
+					<input ng-model="vm.questionFilterKey" type="text">
+				</md-input-container>
+				
+			</div>
+		</md-toolbar>
+	
+		<md-tabs md-selected="vm.selectedIndex" md-border-bottom md-autoselect layout-fill  class="md-accent">
+		
+			<md-tab ng-repeat="question in vm.questions" layout-fill > 
+			
+				<md-tab-label ng-if="!question.answered" > 
+					<md-icon ng-if="question.answered"> done </md-icon>				
+					<md-icon ng-if="question.completed"> done_all </md-icon>
+					{{question.title}}
+				</md-tab-label>
+				<md-tab-body layout-fill>
+					<md-content>
+					<md-list flex>
+						<md-subheader class="md-no-sticky" flex>Escolha uma das opções abaixo</md-subheader>
+						<md-list-item 
+							ng-repeat="option in question.options | filter: vm.questionFilter"
+							ng-click="vm.selectOption(option, question)">
+							<p>
+								<md-icon ng-if="option.selected"> grade </md-icon>
+								{{ option.title }}
+							</p>
+						</md-list-item>
+					</md-list>
+					</md-content>
+				</md-tab-body>
+				
+			</md-tab>
+			
+		</md-tabs>
+	</md-content>
+</section>

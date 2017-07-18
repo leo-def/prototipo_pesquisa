@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html ng-app="app">
+    <head>
+        <title>Pesquisa Online</title>
+        <base href="/"/>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link href="template/angular-material/angular-material.min.css" rel="stylesheet">
+        <link href="template/material-design-icons/config.css" rel="stylesheet">
+		<style>
+			#bkg{
+				background-image: url("template/img/bkg1.jpg");
+				background-size: cover;
+				background-repeat: no-repeat;
+			}
+		</style>
+    </head>
+    <body ng-controller="appController as vm" ng-cloak layout-fill >
+        
+		<div ng-include="'template/active.html'"  ng-if="vm.screen === 1" layout-fill></div>
+        
+		<div ng-include="'template/cadastre.html'"  ng-if="vm.screen === 2" layout-fill></div>
+		
+		<div ng-include="'template/appraisal.html'"  ng-if="vm.screen === 3" layout-fill ></div>
+		
+		<div ng-include="'template/logout.html'"  ng-if="vm.screen === 4" layout-fill ></div>
+
+	<script src="template/angular-material/angular.min.js" type="text/javascript"></script>
+	<script src="template/angular-material/angular-animate.min.js" type="text/javascript"></script>
+	<script src="template/angular-material/angular-aria.min.js" type="text/javascript"></script>
+	<script src="template/angular-material/angular-material.min.js" type="text/javascript"></script>
+	<script src="template/angular-material/angular-messages.min.js" type="text/javascript"></script>
+	
+    <script>
+		(function(){
+			angular.module("app", ["ngMaterial"])
+				.controller("appController",appController)
+				.config(themeConfig);
+				
+			function themeConfig($mdThemingProvider){
+				$mdThemingProvider.theme('default')
+					.primaryPalette('teal')
+					.accentPalette('deep-purple');
+			}
+			function appController($scope, $mdSidenav, $mdDialog, $mdToast){
+				var vm = this;
+				vm.screen = 1;
+				vm.active = {};
+				vm.cadastre = {};
+				vm.goCadastre = goCadastre;
+				vm.goAppraisal = goAppraisal;
+				vm.goActive = goActive;
+				vm.toggle = toggle;
+				vm.questionFilterKey = '';
+				vm.questionFilter = questionFilter;
+				vm.logout = logout;
+				vm.selectOption = selectOption;
+				vm.isCompleted = isCompleted;
+				vm.complete = complete;
+				vm.selectedIndex = 0;
+				vm.selectQuestion = selectQuestion;
+				
+				function questionFilter(item) { 
+					if(vm.questionFilterKey === null || vm.questionFilterKey === ''|| vm.questionFilterKey === undefined){return true;}
+					if(item.title === null ||  item.title === undefined ){return false;}
+					return item.title.indexOf(vm.questionFilterKey) !== -1;
+				};
+				function selectOption(option, question){
+					for(index in question.options)
+					{
+						question.options[index].selected = false;
+					}
+					vm.selectedIndex++;
+					option.selected = true;
+					question.answered = true;
+					question.answer = option;
+					if(vm.isCompleted()){
+						vm.complete();
+					}
+				};
+				function selectQuestion(question){
+					for(index in vm.questions)
+					{
+						if(vm.questions[index].title === question.title){
+							vm.selectedIndex = index;
+							return;
+						}
+					}
+				}
+				
+				function isCompleted(){
+					for(index in vm.questions){
+						if(! vm.questions[index].answered){
+							return false;
+						}
+					}
+					return true;
+				};
+				
+				function complete(){
+					for(index in vm.questions){
+						vm.questions[index].answered = false;
+						vm.questions[index].completed = true;
+					}
+					$mdToast.show(
+						$mdToast.simple()
+						.textContent('Obrigado por participar!')
+						.position('top left')
+						.hideDelay(3000)
+					).then(function(){
+						vm.goCadastre();
+					});
+					
+				};
+				
+			
+
+				vm.questions = [
+					{
+						title: 'Qual é o melhor supermercado?',
+						options: [
+							{title: 'hGofthes'},
+							{title: 'fthBtfhig'},
+							{title: 'Mtfhuffathto'},
+							{title: 'Cothndor'},
+							{title: 'fthJacotfhmar'},
+							{title: 'fthSupertfh X'},
+							{title: 'tfhTotathtl'},
+							{title: 'Btfhtrasãtfho'},
+							{title: 'fthTelefthmarcoborbftha'},
+							{title: 'tfhOwsfthtfmart'},
+						]
+					},
+					{
+						title: 'Qual é amelhor farmacia?',
+						options: [
+							{title: 'tfhPopfthular'},
+							{title: 'fthNistfhsei'},
+							{title: 'Maxfatfhtfrma'},
+							{title: 'Drfthtfogaraia'},
+							{title: 'fhfDrogfthamet'},
+							{title: 'Farfthtfmais'},
+							{title: 'fthMedfarma'},
+							{title: 'Pretfhço Pofthtfpular'},
+							{title: 'fhPanfthvel'},
+						]
+					},
+					{
+						title: 'Qual é a clinica veterinária mais barata?',
+						options: [
+							{title: 'ClinithPet'},
+							{title: 'MedPthet'},
+							{title: 'Clinhica Veteritfhnária'},
+							{title: 'PecCLhnin'},
+							{title: 'Dr Ithdo'},
+							{title: 'CldghinhnhniVet'},
+							{title: 'VithtfpVet'},
+							{title: 'Clin Sãfthto Jofthsé'},
+						]
+					},
+					{
+						title: 'Qual é a empresa de TI mais reconhecida?',
+						options: [
+							{title: 'TdfgI fgdfmaxdfg'},
+							{title: 'Paradoxical Patterns'},
+							{title: 'Grandfgde TI'},
+							{title: 'Fredfgd Sifgsteas'},
+							{title: 'Smadfgrt Sysdfgtems'},
+							{title: 'Sistdfemas tdfgfotal'},
+						]
+					},
+					
+				];
+				
+				function toggle(){
+					$mdSidenav("left").toggle();
+				}
+				
+				function goActive(){
+					vm.screen = 1;
+				}
+				
+				function goCadastre(){
+					vm.screen = 2;
+				}
+				
+				function goAppraisal(){
+					for(index in vm.questions){
+						vm.questions[index].answered = false;
+						vm.questions[index].completed = false;
+						vm.questions[index].answer = null;
+						for(qindex in vm.questions[index].options)
+						{
+							vm.questions[index].options[qindex].selected = false;
+						}
+					}
+					vm.selectedIndex = 0;
+					vm.screen = 3;
+				}
+				
+				function logout(ev){
+					console.log("logout");
+					// Appending dialog to document.body to cover sidenav in docs app
+					var confirm = $mdDialog.prompt()
+					  .title('Deseja realmente desativar o app?')
+					  .textContent('A desativação ou ativação do app pode ser feita somente por pessoal autorizado, por favor digite seu token.')
+					  .placeholder('Token de usuário')
+					  .ariaLabel('Token de usuário')
+					  //.initialValue('Buddy')
+					  .targetEvent(ev)
+					  .ok('OK Desativar')
+					  .cancel('Ops! Cancelar');
+
+					$mdDialog.show(confirm).then(function(result) {
+					  $scope.status = 'parelho desativado com sucesso';
+					  vm.goActive();
+					}, function() {
+					  $scope.status = 'Aparelho não desativado.';
+					});
+				}
+				
+				
+				
+			}
+		})();
+	</script>
+	</body>
+</html>

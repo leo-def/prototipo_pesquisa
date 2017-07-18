@@ -1,0 +1,63 @@
+
+<section layout="row" layout-fill>
+	<md-sidenav md-component-id="left" md-whiteframe="4">
+		<md-toolbar>
+			<h1 class="md-toolbar-tools">Opções</h1>
+		</md-toolbar>
+		<md-content layout-margin>
+			<md-button ng-click="vm.logout()" class="md-accent">
+				Desativar
+			</md-button>
+		</md-content>
+    </md-sidenav>
+	<md-content layout-fill >
+		<md-toolbar md-scroll-shrink flex >
+			<div class="md-toolbar-tools">
+				<md-button 
+					class="md-icon-button md-accent" 
+					aria-label="Settings" 
+					ng-click="vm.toggle()"
+					target="_blank">
+					<md-icon> menu </md-icon>
+				</md-button>
+				<h2>Cadastro </h2>
+				<span flex=""></span>
+			</div>
+		</md-toolbar>
+		<md-content id="bkg" flex layout-fill >
+			<div layout="row" >
+			<div flex="20"></div>
+			<div layout="row" flex>
+				<md-card flex>
+					
+					<md-card-content>
+						<md-input-container class="md-block">
+						<label>Nome do Usuário</label>
+						<input required type="text" name="name" ng-model="vm.cadastre.name" aria-label="Nome do Usuário"/>
+						</md-input-container>
+
+						<md-input-container class="md-block">
+						<label>CPF</label>
+						<input required type="text" name="cpf" ng-model="vm.cadastre.cpf" aria-label="CPF"/>
+						</md-input-container>
+
+						<md-input-container class="md-block">
+						<label>Email</label>
+						<input required type="text" name="email" ng-model="vm.cadastre.email" aria-label="Email"/>
+						</md-input-container>
+
+						<md-input-container class="md-block">
+						<label>Telefone</label>
+						<input required type="text" name="telefone" ng-model="vm.cadastre.phone" aria-label="Telefone"/>
+						</md-input-container>
+
+					</md-card-content>
+					<md-card-actions>
+						<md-button   type="submit" ng-click="vm.goAppraisal()">Iniciar uma nova pesquisa?</md-button>
+					</md-card-actions>
+				</md-card>
+			</div>
+			<div flex="20"></div>
+			</div>
+		</md-content>
+	</md-content>

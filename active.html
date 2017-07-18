@@ -1,0 +1,36 @@
+	<md-toolbar md-scroll-shrink >
+            <div class="md-toolbar-tools">
+                
+                <h2>Ativar Aparelho </h2>
+                <span flex=""></span>
+            </div>
+        </md-toolbar>
+        <md-content id="bkg" layout-fill >
+			<div layout="row" >
+			<div flex="20"></div>
+			<md-content layout="row" flex >
+				<md-card flex>
+					<md-card-title>
+						<h3 class="md-accent">Ativação do aparelho!</h3>
+					</md-card-title>
+					<md-card-content>
+							<p>Somente pessoal autorizado tem a permissão para ativar/desativar o aparelho, insira seu token  e o token do estabelecimento.</p>
+                            <md-input-container class="md-block">
+                                <label>Token do Usuário</label>
+                                <input required type="password" name="user_token" ng-model="vm.active.user_token" aria-label="Token do Usuário"/>
+                            </md-input-container>
+
+                            <md-input-container class="md-block">
+                                <label>Token do Estabelecimento</label>
+                                <input required type="password" name="place_token" ng-model="vm.active.place_token" aria-label="Token do Estabelecimento"/>
+                            </md-input-container>
+
+					</md-card-content>
+					<md-card-actions>
+						<md-button   class="md-icon-button" type="submit" ng-click="vm.goCadastre()"><md-icon> done </md-icon></md-button>
+					</md-card-actions>
+				</md-card>
+			</md-content>
+			<div flex="20"></div>
+			</div>
+		</md-content>
